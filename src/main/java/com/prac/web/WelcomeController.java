@@ -11,15 +11,9 @@ public class WelcomeController {
 
 	private static final Logger log = LoggerFactory.getLogger(WelcomeController.class);
 	
-	@GetMapping("/helloworld")
-	public String welcome(String name, int age, Model model) {
+	@GetMapping("")
+	public String welcome() {
 		
-		log.info("/helloworld");
-		log.info("name : " + name + "age : " + age);
-		
-		model.addAttribute("name", name);
-		model.addAttribute("age", age);
-		
-		return "welcome";
+		return "index";
 	}
 }
