@@ -49,8 +49,17 @@ public class UserController {
 			return "redirect:/user/list";			
 		}
 		
-		log.info("로그인 성공!");
 		session.setAttribute("user", user);
+		log.info("로그인 성공!");
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		
+		session.removeAttribute("user");
+		log.info("로그아웃!");
 		
 		return "redirect:/";
 	}
