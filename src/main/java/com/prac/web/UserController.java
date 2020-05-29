@@ -26,6 +26,12 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@GetMapping("/loginForm")
+	public String login() {
+		
+		return "/user/login";
+	}
+	
 	@GetMapping("/join")
 	public String join() {
 		
