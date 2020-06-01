@@ -3,6 +3,8 @@ package com.prac.web;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,30 @@ public class UserController {
 	private UserRepository userRepository;
 	
 	@GetMapping("/loginForm")
-	public String login() {
+	public String loginForm() {
 		
 		return "/user/login";
+	}
+	
+	@PostMapping("/login")
+	public String login(String userId, String password, HttpSession session) {
+		
+		User user = userRepository.findByUserId(userId);
+		
+		if (user == null) {
+			log.info("해당하는 회원이 존재하지 않습니다.");
+			return "redirect:/user/list";
+		}
+		
+		if (!user.getPassword().equals(password)) {
+			log.info("비밀번호가 틀립니다.");
+			return "redirect:/user/list";			
+		}
+		
+		log.info("로그인 성공!");
+		session.setAttribute("user", user);
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("/join")
