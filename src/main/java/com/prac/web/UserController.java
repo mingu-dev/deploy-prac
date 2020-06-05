@@ -91,16 +91,22 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}")
-	public String modify(@PathVariable Long id, Model model) throws Exception {
+	public String modify(@PathVariable Long id, Model model, HttpSession session) throws Exception {
+		
+		User sessionUser = (User)session.getAttribute("user");
+		
+		if (id != sessionUser.getId()) {
+			throw new Exception("로그인한 유저가 아닙니다.");
+		}
 		
 		Optional<User> optional = userRepository.findById(id);
 		
 		if (optional.isPresent()) {
-			model.addAttribute("user", optional.get());
+			model.addAttribute("user_needUpdate", optional.get());
 			return "/user/update";
 		}
 		
-		throw new Exception();
+		throw new Exception("사용자가 존재하지 않습니다.");
 	}
 	
 	@PutMapping("/update/{id}")
